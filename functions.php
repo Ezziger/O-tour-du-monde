@@ -2,7 +2,7 @@
 
 <?php
 
-function getArticles() {
+function getSejours() {
     /***********************************SEJOUR EN GRECE***********************************/
     $grece = [
         "id" => 0,
@@ -49,8 +49,8 @@ function getArticles() {
 
 /***********************************AFFICHAGE DES SEJOURS***********************************/
 
-function showArticles () {
-    foreach (getArticles() as $sejour) {
+function showSejours () {
+    foreach (getSejours() as $sejour) {
         echo '<div class="card" style="width: 18rem;">
   <img src="" class="card-img-top" alt="">
   <div class="card-body">
@@ -68,5 +68,35 @@ function showArticles () {
 </div>';
     }
 }
+
+/***********************************RECUPERATION DU SEJOUR CORRESPONDANT A L'ID***********************************/
+
+function getSejour ($id) {
+    $sejours = getSejours();
+    foreach($sejours as $sejour) {
+        if ($id == $sejour['id']) {
+            return $sejour;
+        }
+    }
+}
+
+/***********************************AFFICHAGE DU SEJOUR CORRESPONDANT A L'ID***********************************/
+
+function showSejour ($id) {
+    $sejourChoisi = getSejour($id);
+    echo '<div class="card" style="width: 18rem;">
+  <img src="" class="card-img-top" alt="">
+  <div class="card-body">
+    <h5 class="card-title">'.$sejourChoisi["nom_du_sejour"].'</h5>
+    <p class="card-text">'.$sejourChoisi["small_description"].'</p>
+    <p class="card-text">'.$sejourChoisi["long_description"].'</p>
+    <p class="card-text">'.$sejourChoisi["durée"].'</p>
+    <p class="card-text">'.$sejourChoisi["formule"].'</p>
+    <p class="card-text">'.$sejourChoisi["prix"].'</p>
+    <a href="#" class="btn btn-primary">Ajouter au panier</a>
+  </div>
+</div>';
+    }
+
 
 ?>

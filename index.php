@@ -7,7 +7,7 @@ include "header.php";
 <?php
 include "functions.php";
 //print_r(getArticles()[0]);
-print_r(showArticles());
+showSejours();
 
 ?>
 
