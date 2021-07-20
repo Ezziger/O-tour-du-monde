@@ -41,9 +41,7 @@ function getSejours() {
     /***********************************CREATION DE L'ARRAY SEJOUR***********************************/
     
     $sejours = [];
-    array_push($sejours, $grece);
-    array_push($sejours, $ile_maurice);
-    array_push($sejours, $bresil); 
+    array_push($sejours, $grece, $ile_maurice, $bresil);
     return $sejours;
 }
 
@@ -63,7 +61,10 @@ function showSejours () {
     <input type="hidden" name="sejourId" value="' . $sejour["id"] . '">
     <button type="submit" class="btn btn-primary">Details</button>
     </form>
-    <a href="#" class="btn btn-primary">Ajouter au panier</a>
+    <form method="post" action="cart.php">
+    <input type="hidden" name="panierSejourId" value="' . $sejour["id"] . '">
+    <button type="submit" class="btn btn-primary">Ajouter au panier</button>
+    </form>
   </div>
 </div>';
     }
@@ -83,20 +84,33 @@ function getSejour ($id) {
 /***********************************AFFICHAGE DU SEJOUR CORRESPONDANT A L'ID***********************************/
 
 function showSejour ($id) {
-    $sejourChoisi = getSejour($id);
+    $sejourDetails = getSejour($id);
     echo '<div class="card" style="width: 18rem;">
   <img src="" class="card-img-top" alt="">
   <div class="card-body">
-    <h5 class="card-title">'.$sejourChoisi["nom_du_sejour"].'</h5>
-    <p class="card-text">'.$sejourChoisi["small_description"].'</p>
-    <p class="card-text">'.$sejourChoisi["long_description"].'</p>
-    <p class="card-text">'.$sejourChoisi["durée"].'</p>
-    <p class="card-text">'.$sejourChoisi["formule"].'</p>
-    <p class="card-text">'.$sejourChoisi["prix"].'</p>
+    <h5 class="card-title">'.$sejourDetails["nom_du_sejour"].'</h5>
+    <p class="card-text">'.$sejourDetails["small_description"].'</p>
+    <p class="card-text">'.$sejourDetails["long_description"].'</p>
+    <p class="card-text">'.$sejourDetails["durée"].'</p>
+    <p class="card-text">'.$sejourDetails["formule"].'</p>
+    <p class="card-text">'.$sejourDetails["prix"].'</p>
     <a href="#" class="btn btn-primary">Ajouter au panier</a>
   </div>
 </div>';
     }
+/***********************************AJOUTER LE SEJOUR AU PANIER***********************************/
+
+function addToCart ($id) {
+    $sejourChoisi = getSejour($id);
+    foreach($_SESSION['cart'] as $el) {
+        if($sejourChoisi === $el) {
+            echo "<script>alert(\"Ce séjour est déjà dans votre panier\")</script>";
+        } else {
+            array_push($_SESSION['cart'], $sejourChoisi);
+    }
+}}
+
+
 
 
 ?>

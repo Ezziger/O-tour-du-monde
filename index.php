@@ -1,4 +1,12 @@
 <?php
+session_start();
+$_SESSION['cart'];
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = array();
+}
+?>
+
+<?php
 include "header.php";
 ?>
 
