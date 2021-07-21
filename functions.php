@@ -62,7 +62,7 @@ function showSejours () {
     <button type="submit" class="btn btn-primary">Details</button>
     </form>
     <form method="post" action="cart.php">
-    <input type="hidden" name="panierSejourId" value="' . $sejour["id"] . '">
+    <input type="hidden" name="SejourId" value="' . $sejour["id"] . '">
     <button type="submit" class="btn btn-primary">Ajouter au panier</button>
     </form>
   </div>
@@ -94,23 +94,49 @@ function showSejour ($id) {
     <p class="card-text">'.$sejourDetails["durée"].'</p>
     <p class="card-text">'.$sejourDetails["formule"].'</p>
     <p class="card-text">'.$sejourDetails["prix"].'</p>
-    <a href="#" class="btn btn-primary">Ajouter au panier</a>
+    <form method="post" action="cart.php">
+    <input type="hidden" name="SejourId" value="' . $sejourDetails["id"] . '">
+    <button type="submit" class="btn btn-primary">Ajouter au panier</button>
+    </form>
   </div>
 </div>';
     }
 /***********************************AJOUTER LE SEJOUR AU PANIER***********************************/
 
 function addToCart ($id) {
+    $isArticleAlreadyAdded = FALSE;
     $sejourChoisi = getSejour($id);
-    foreach($_SESSION['cart'] as $el) {
-        if($sejourChoisi === $el) {
+    for ($i = 0; $i < count($_SESSION['cart']); $i++) {
+        if($sejourChoisi['id'] === $_SESSION['cart'][$i]['id']) {
+            $isArticleAlreadyAdded = TRUE;
             echo "<script>alert(\"Ce séjour est déjà dans votre panier\")</script>";
-        } else {
-            array_push($_SESSION['cart'], $sejourChoisi);
+        }
     }
-}}
+    if ( !$isArticleAlreadyAdded) {
+        $sejourChoisi['quantity'] = 1;
+        array_push($_SESSION['cart'], $sejourChoisi);
+    }
+}
 
+/***********************************AFFICHER LE PANIER***********************************/
 
+function showCart($element) {
+    foreach ($_SESSION['cart'] as $element) {
+        echo '<li class="list-group-item d-flex">
+        <p>' . $element['nom_du_sejour'] . '</p>
+        <p>' . $element['quantity'] . '</p>
+        <p>' . $element['prix'] . '</p>
+        <form method="post" action="cart.php">
+        <input type="hidden" name="idToDelete" value="' . $element['id'] . '">
+        <button type="submit" class="btn btn-primary">Supprimer du panier</button>
+        </form>
+        </li>';
+    }
+}
 
+/***********************************AFFICHER LE PANIER***********************************/
+function deleteFromCart () {
+    echo $_POST["idToDelete"];
+}
 
 ?>
