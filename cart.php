@@ -27,20 +27,29 @@ if (isset($_POST["SejourId"])) {
     addToCart($_POST["SejourId"]);   
 }
 ?>
-<p> Total HT : <?php totalPanierHFP() ?></p>
-<?php calculFraisDossier() ?>
-<?php TotalTTC()?>
-<?php var_dump($total) ?>
 
 
 <ul class="list-group">
     <?php
          if(isset($_POST['idToDelete'])) {
-            deleteFromCart($_POST['idToDelete']);
-        }
-    ?>
+             deleteFromCart($_POST['idToDelete']);
+            }
+            ?>
+  <?php
+           if(isset($_POST['modificationSejourId'])) {
+               modificationQuantités();
+            }
+            ?>
+  
+  
+  
   <?php
   showCart($_SESSION['cart']);
-  var_dump($_SESSION['cart']);
   ?>
+
 </ul>
+<p> Total HT : <?php totalPanierHFP() ?></p>
+<?php calculFraisDossier() ?>
+<?php TotalTTC()?>
+
+

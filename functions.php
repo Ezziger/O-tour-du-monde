@@ -124,7 +124,11 @@ function showCart($element) {
     foreach ($_SESSION['cart'] as $element) {
         echo '<li class="list-group-item d-flex justify-content-between">
         <p>' . $element['nom_du_sejour'] . '</p>
-        <input type="number" name="" value="' . $element['quantity'] . '" min="' . $element['quantity'] . '" max="100">
+        <form method="post" action="cart.php">
+        <input type="hidden" name="modificationSejourId" value="' . $element['id'] .'">
+        <input type="text" name="nouvelleQuantité" value="' .$element['quantity'] . '">
+        <button type="submit" class="btn btn-primary">Modifier la quantité</button>
+        </form>
         <p>' . $element['prix'] . '</p>
         <form method="post" action="cart.php">
         <input type="hidden" name="idToDelete" value="' . $element['id'] . '">
@@ -180,7 +184,11 @@ function TotalTTC () {
 /***********************************MODIFICATIONS DES QUANTITES***********************************/
 
 function modificationQuantités () {
-
+ for ($i = 0; $i < count($_SESSION['cart']); $i++) {
+     if ($_SESSION['cart'][$i]['id'] == $_POST['modificationSejourId']) {
+        $_SESSION['cart'][$i]['quantity'] = $_POST['nouvelleQuantité'];
+     }
+ }
 }
 
 
