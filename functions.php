@@ -122,9 +122,9 @@ function addToCart ($id) {
 
 function showCart($element) {
     foreach ($_SESSION['cart'] as $element) {
-        echo '<li class="list-group-item d-flex">
+        echo '<li class="list-group-item d-flex justify-content-between">
         <p>' . $element['nom_du_sejour'] . '</p>
-        <p>' . $element['quantity'] . '</p>
+        <input type="number" name="" value="' . $element['quantity'] . '" min="' . $element['quantity'] . '" max="100">
         <p>' . $element['prix'] . '</p>
         <form method="post" action="cart.php">
         <input type="hidden" name="idToDelete" value="' . $element['id'] . '">
@@ -134,9 +134,57 @@ function showCart($element) {
     }
 }
 
-/***********************************AFFICHER LE PANIER***********************************/
-function deleteFromCart () {
-    echo $_POST["idToDelete"];
+/***********************************SUPPRIMER DU PANIER***********************************/
+function deleteFromCart ($idTodelete) {
+    for( $i = 0; $i < count($_SESSION['cart']); $i++) {
+        if ($idTodelete == $_SESSION['cart'][$i]['id']) {
+            array_splice($_SESSION['cart'],$i, 1);
+            echo "L'article a été retiré du panier";
+        }
+    }
 }
+
+/***********************************TOTAL DU PANIER***********************************/
+$total = 0;
+function totalPanierHFP() {
+    global $total;
+    foreach ($_SESSION['cart'] as $element) {
+        $total += $element['prix'] * $element['quantity'];
+    }
+    echo $total;
+    return $total;
+}
+
+/***********************************FRAIS DE DOSSIER***********************************/
+$totalFrais = 0;
+function calculFraisDossier() {
+    global $totalFrais;
+    $totalNombreArticles = 0;
+    $prixFraisDossier = 30;
+    foreach ($_SESSION['cart'] as $element) {
+        $totalNombreArticles += $element['quantity'];
+    }
+    $totalFrais = $totalNombreArticles * $prixFraisDossier;
+    echo '<div>' . $totalFrais . '</div>';
+    return $totalFrais;
+}
+
+/***********************************TOTAL DU PANIER TTC***********************************/
+function TotalTTC () {
+    global $total, $totalFrais;
+    $totalTTC = $total + $totalFrais;
+    echo '<div>' . $totalTTC . '</div>';
+
+}
+
+/***********************************MODIFICATIONS DES QUANTITES***********************************/
+
+function modificationQuantités () {
+
+}
+
+
+
+
 
 ?>

@@ -6,23 +6,41 @@ if (!isset($_SESSION['cart'])) {
 }
 ?>
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
 <?php
 include "header.php";
 ?>
 
 <?php
-//var_dump($_POST["panierSejourId"]);
 include "functions.php";
-//getSejour($_POST["panierSejourId"]);
-//showSejour($_POST["panierSejourId"]);
-addToCart($_POST["SejourId"]);
-var_dump($_SESSION['cart']);
-
+if (isset($_POST["SejourId"])) {
+    addToCart($_POST["SejourId"]);   
+}
 ?>
+<p> Total HT : <?php totalPanierHFP() ?></p>
+<?php calculFraisDossier() ?>
+<?php TotalTTC()?>
+<?php var_dump($total) ?>
+
+
 <ul class="list-group">
+    <?php
+         if(isset($_POST['idToDelete'])) {
+            deleteFromCart($_POST['idToDelete']);
+        }
+    ?>
   <?php
   showCart($_SESSION['cart']);
-
-  var_dump(deleteFromCart())
+  var_dump($_SESSION['cart']);
   ?>
 </ul>
