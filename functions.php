@@ -155,10 +155,28 @@ echo '<form method="post" action="cart.php">
  <button type="submit" class="btn btn-primary">Supprimer le panier</button>';
 }
 
-
 /***********************************SUPPRIMER LA TOTALITE DU PANIER***********************************/
 function suppressionDuPanier () {
     $_SESSION['cart'] = [];
+}
+
+/***********************************AFFICHER LE BOUTON POUR VALIDER LE PANIER***********************************/
+function boutonValiderLaCommande () {
+    echo '<form method="post" action="validation.php">
+          <input type="hidden" name="validerLaCommande" value="">   
+          <button type="submit" class="btn btn-primary">Valider la commande</button>
+          </form>';
+} 
+
+/***********************************VALIDER LE PANIER***********************************/
+function AfficherLaValidationCommande () {
+    foreach ($_SESSION['cart'] as $element) {
+        echo '<li class="list-group-item d-flex justify-content-between">
+        <p>' . $element['nom_du_sejour'] . '</p>
+        <p>' . $element['quantity'] . '</p>
+        <p>' . $element['prix'] . '</p>
+        </li>';
+    }
 }
 
 

@@ -45,16 +45,18 @@ if (isset($_POST["SejourId"])) {
                 suppressionDuPanier();
              }
     ?>
- 
+
   
   
   
   <?php
   showCart($_SESSION['cart']);
-  ?>
-    <?php
+ 
   boutonToutSupprimer();
-  ?>
+
+  boutonValiderLaCommande();
+?>
+<a href="validation.php"> Bonjour</a>
 
 
 </ul>
