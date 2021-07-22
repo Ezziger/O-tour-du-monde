@@ -148,6 +148,30 @@ function deleteFromCart ($idTodelete) {
     }
 }
 
+/***********************************AFFICHER LE BOUTON POUR SUPPRIMER LA TOTALITE DU PANIER***********************************/
+function boutonToutSupprimer () {
+echo '<form method="post" action="cart.php">
+ <input type="hidden" name="supprimerPanier" value="">
+ <button type="submit" class="btn btn-primary">Supprimer le panier</button>';
+}
+
+
+/***********************************SUPPRIMER LA TOTALITE DU PANIER***********************************/
+function suppressionDuPanier () {
+    $_SESSION['cart'] = [];
+}
+
+
+/***********************************MODIFICATIONS DES QUANTITES***********************************/
+
+function modificationQuantités () {
+ for ($i = 0; $i < count($_SESSION['cart']); $i++) {
+     if ($_SESSION['cart'][$i]['id'] == $_POST['modificationSejourId']) {
+        $_SESSION['cart'][$i]['quantity'] = $_POST['nouvelleQuantité'];
+     }
+ }
+}
+
 /***********************************TOTAL DU PANIER***********************************/
 $total = 0;
 function totalPanierHFP() {
@@ -181,15 +205,6 @@ function TotalTTC () {
 
 }
 
-/***********************************MODIFICATIONS DES QUANTITES***********************************/
-
-function modificationQuantités () {
- for ($i = 0; $i < count($_SESSION['cart']); $i++) {
-     if ($_SESSION['cart'][$i]['id'] == $_POST['modificationSejourId']) {
-        $_SESSION['cart'][$i]['quantity'] = $_POST['nouvelleQuantité'];
-     }
- }
-}
 
 
 

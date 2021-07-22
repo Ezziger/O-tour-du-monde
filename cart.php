@@ -31,21 +31,31 @@ if (isset($_POST["SejourId"])) {
 
 <ul class="list-group">
     <?php
-         if(isset($_POST['idToDelete'])) {
+        if(isset($_POST['idToDelete'])) {
              deleteFromCart($_POST['idToDelete']);
             }
-            ?>
-  <?php
-           if(isset($_POST['modificationSejourId'])) {
+    ?>
+    <?php
+        if(isset($_POST['modificationSejourId'])) {
                modificationQuantités();
             }
-            ?>
+    ?>  
+    <?php
+        if(isset($_POST['supprimerPanier'])) {
+                suppressionDuPanier();
+             }
+    ?>
+ 
   
   
   
   <?php
   showCart($_SESSION['cart']);
   ?>
+    <?php
+  boutonToutSupprimer();
+  ?>
+
 
 </ul>
 <p> Total HT : <?php totalPanierHFP() ?></p>
