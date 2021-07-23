@@ -20,6 +20,8 @@ if (!isset($_SESSION['cart'])) {
 <?php
 include "header.php";
 ?>
+</header>
+<body>
 
 <?php
 include "functions.php";

@@ -8,11 +8,15 @@ if (!isset($_SESSION['cart'])) {
 
 <?php
 include "header.php";
+include "functions.php";
 ?>
+
+<img src="<?= getSejour($_POST["sejourId"])['image']?>" alt="">
+</header>
+<body>
 
 <?php
 //var_dump($_POST["sejourId"]);
-include "functions.php";
 //getSejour($_POST["sejourId"]);
 showSejour($_POST["sejourId"]);
 ?>

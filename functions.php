@@ -6,6 +6,7 @@ function getSejours() {
     /***********************************SEJOUR EN GRECE***********************************/
     $grece = [
         "id" => 0,
+        "image" => "./images/santorin.jpg",
         "nom_du_sejour" => "A l'abordage de Santorin",
         "small_description" => "Soleil, détente et bord de mer",
         "long_description" => "elle sera longue plus tard",
@@ -18,6 +19,7 @@ function getSejours() {
     /***********************************SEJOUR A L ILE***********************************/
     $ile_maurice = [
         "id" => 1,
+        "image" => "./images/ile-maurice.jpg",
         "nom_du_sejour" => "Farniente à l'île Maurice",
         "small_description" => "Plage, eaux turquoises et coktails",
         "long_description" => "elle sera longue plus tard",
@@ -29,6 +31,7 @@ function getSejours() {
     /***********************************SEJOUR AU BRESIL***********************************/
     $bresil = [
         "id" => 2,
+        "image" => "./images/rio-de-janeiro.jpg",
         "nom_du_sejour" => "Circuit Au Pays des Cariocas",
         "small_description" => "Circuit découverte à travers les incontournables du Brésil.  ",
         "long_description" => "elle sera longue plus tard",
@@ -50,7 +53,7 @@ function getSejours() {
 function showSejours () {
     foreach (getSejours() as $sejour) {
         echo '<div class="card" style="width: 18rem;">
-  <img src="" class="card-img-top" alt="">
+  <img src="'.$sejour["image"].'" class="card-img-top" alt="">
   <div class="card-body">
     <h5 class="card-title">'.$sejour["nom_du_sejour"].'</h5>
     <p class="card-text">'.$sejour["small_description"].'</p>
@@ -161,12 +164,12 @@ function suppressionDuPanier () {
 }
 
 /***********************************AFFICHER LE BOUTON POUR VALIDER LE PANIER***********************************/
-function boutonValiderLaCommande () {
+/*function boutonValiderLaCommande () {
     echo '<form method="post" action="validation.php">
           <input type="hidden" name="validerLaCommande" value="">   
           <button type="submit" class="btn btn-primary">Valider la commande</button>
           </form>';
-} 
+} */
 
 /***********************************VALIDER LE PANIER***********************************/
 function AfficherLaValidationCommande () {
