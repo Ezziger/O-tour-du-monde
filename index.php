@@ -52,11 +52,19 @@ include "header.php";
 </header>
 <body>
 
-
-<?php
-include "functions.php";
-showSejours();
-?>
+<div class="wrapperIndex">
+  <h1>Nos offres du moment</h1>
+  <div class="container wrapperStays">
+    <div class="row">
+      <div class="col displayStays">
+        <?php
+        include "functions.php";
+        showSejours();
+        ?>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

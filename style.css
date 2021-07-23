@@ -1,0 +1,53 @@
+h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h5 {
+    font-size: 1.05rem !important;
+    font-weight: bold;
+}
+
+.wrapperIndex {
+    margin: 50px auto 50px auto;
+}
+
+.wrapperStays {
+    margin: 50px auto 30px auto;
+    flex-wrap: wrap;
+}
+
+.displayStays {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card {
+    box-shadow: 7px 7px 5px #F7FF3C
+}
+
+
+/*************************************FOOTER/*************************************/
+
+.infos-top {
+    display: flex !important;
+    align-items: center !important;
+    flex-direction: column !important;
+}
+
+.infos-bottom {
+    display: flex !important;
+    align-items: center !important;
+    flex-direction: column !important;
+}
+
+.conditions {
+    display: flex;
+    flex-direction: column;
+}

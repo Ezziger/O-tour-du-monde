@@ -53,15 +53,15 @@ if (isset($_POST["SejourId"])) {
   
   <?php
   showCart($_SESSION['cart']);
- 
-  boutonToutSupprimer();
-
-  boutonValiderLaCommande();
 ?>
-<a href="validation.php"> Bonjour</a>
-
-
 </ul>
+
+ <?php
+  boutonToutSupprimer();
+?>
+
+
+<a href="validation.php"> Bonjour</a>
 <p> Total HT : <?php totalPanierHFP() ?></p>
 <?php calculFraisDossier() ?>
 <?php TotalTTC()?>

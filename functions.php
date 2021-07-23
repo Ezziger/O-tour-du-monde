@@ -8,21 +8,21 @@ function getSejours() {
         "id" => 0,
         "image" => "./images/santorin.jpg",
         "nom_du_sejour" => "A l'abordage de Santorin",
-        "small_description" => "Soleil, détente et bord de mer",
-        "long_description" => "elle sera longue plus tard",
+        "small_description" => "Séjour inoubliable sur l'île de Santorin en Grèce",
+        "long_description" => "Entre mers et montagnes, eaux turquoises, petits villages pittoresques et la traditionnelle Philoxénia (l’hospitalité grecque), venez profiter d’un séjour inoubliable en Grèce !",
         "durée" => "7 jours et 6 nuits",
         "formule" => "demi-pension",
         "prix" => "700"
     ];  
     
     
-    /***********************************SEJOUR A L ILE***********************************/
+    /***********************************SEJOUR A L ILE MAURICE***********************************/
     $ile_maurice = [
         "id" => 1,
         "image" => "./images/ile-maurice.jpg",
         "nom_du_sejour" => "Farniente à l'île Maurice",
-        "small_description" => "Plage, eaux turquoises et coktails",
-        "long_description" => "elle sera longue plus tard",
+        "small_description" => "Séjour détente, entre plage, eaux turquoises et coktails",
+        "long_description" => "Posée en plein Océan indien, l'île Maurice vous ouvre les portes de son jardin secret. Sur place, vous avez rendez-vous avec le bonheur, le raffinement et l'authenticité.",
         "durée" => "10 jours et 9 nuits",
         "formule" => "all-inclusive",
         "prix" => "1250"
@@ -32,19 +32,32 @@ function getSejours() {
     $bresil = [
         "id" => 2,
         "image" => "./images/rio-de-janeiro.jpg",
-        "nom_du_sejour" => "Circuit Au Pays des Cariocas",
+        "nom_du_sejour" => "Circuit au pays des cariocas",
         "small_description" => "Circuit découverte à travers les incontournables du Brésil.  ",
-        "long_description" => "elle sera longue plus tard",
+        "long_description" => "Que l'on soit amateur de ses plages inoubliables et de son soleil, de ses montagnes, sa nature luxuriante et ses forets tropicales, ou de ses ambiances musicales entêtantes,son carnaval et sa diversité, le Brésil est destination qui remplira vos attentes",
         "durée" => "15 jours et 14 nuits",
         "formule" => "pension complète",
         "prix" => "1950"
     ];  
+
+    /***********************************SEJOUR EN ISLANDE***********************************/
+    $islande = [
+        "id" => 3,
+        "image" => "./images/islande.jpg",
+        "nom_du_sejour" => "L'islande et ses aurores boréales",
+        "small_description" => "Circuit découverte de l'Islande et de ses merveilles",
+        "long_description" => "Terre de glace et de feu hors du temps, le pays adossé au cercle arctique ressemble à un immense parc naturel offrant des paysages variés et grandioses.",
+        "durée" => "8 jours et 7 nuits",
+        "formule" => "pension complète",
+        "prix" => "850"
+    ];  
+    
     
     
     /***********************************CREATION DE L'ARRAY SEJOUR***********************************/
     
     $sejours = [];
-    array_push($sejours, $grece, $ile_maurice, $bresil);
+    array_push($sejours, $grece, $ile_maurice, $bresil, $islande);
     return $sejours;
 }
 
@@ -57,9 +70,10 @@ function showSejours () {
   <div class="card-body">
     <h5 class="card-title">'.$sejour["nom_du_sejour"].'</h5>
     <p class="card-text">'.$sejour["small_description"].'</p>
-    <p class="card-text">'.$sejour["durée"].'</p>
-    <p class="card-text">'.$sejour["formule"].'</p>
-    <p class="card-text">'.$sejour["prix"].'</p>
+    <p class="card-text">Durée : '.$sejour["durée"].'</p>
+    <p class="card-text">Formule : '.$sejour["formule"].'</p>
+    <p class="card-text">Prix : '.$sejour["prix"].' € /personne</p>
+    <div class="btn-wrapper">
     <form method="post" action="sejour.php">
     <input type="hidden" name="sejourId" value="' . $sejour["id"] . '">
     <button type="submit" class="btn btn-primary">Details</button>
@@ -68,6 +82,7 @@ function showSejours () {
     <input type="hidden" name="SejourId" value="' . $sejour["id"] . '">
     <button type="submit" class="btn btn-primary">Ajouter au panier</button>
     </form>
+    </div>
   </div>
 </div>';
     }
@@ -91,7 +106,7 @@ function showSejour ($id) {
     echo '<div class="card" style="width: 18rem;">
   <img src="" class="card-img-top" alt="">
   <div class="card-body">
-    <h5 class="card-title">'.$sejourDetails["nom_du_sejour"].'</h5>
+    <h4 class="card-title">'.$sejourDetails["nom_du_sejour"].'</h4>
     <p class="card-text">'.$sejourDetails["small_description"].'</p>
     <p class="card-text">'.$sejourDetails["long_description"].'</p>
     <p class="card-text">'.$sejourDetails["durée"].'</p>
