@@ -1,14 +1,19 @@
 <?php
 session_start();
-$_SESSION['cart'];
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = array();
-}
 ?>
 
 <?php
 include "header.php";
+include "functions.php";
 ?>
+
+<span style="display: none;">
+<?php
+if (isset($_POST["validation"])) {
+  suppressionDuPanier();
+}
+?>
+</span>
 
 
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
@@ -19,24 +24,24 @@ include "header.php";
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="./images/ile-maurice.jpg" class="d-block w-100" alt="">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Des voyages extraordinaires,</h5>
-        <p>Some representative placeholder content for the first slide.</p>
-      </div>
-    </div>
-    <div class="carousel-item">
       <img src="./images/santorin.jpg" class="d-block w-100" alt="">
       <div class="carousel-caption d-none d-md-block">
-        <h5>dans tout les pays,</h5>
-        <p>Some representative placeholder content for the second slide.</p>
+        <h4>Une escapade le temps du week-end ?</h4>
+        <h5>Nous vous proposons des voyages extraordinaires,</h5>
       </div>
     </div>
     <div class="carousel-item">
       <img src="./images/rio-de-janeiro.jpg" class="d-block w-100" alt="">
       <div class="carousel-caption d-none d-md-block">
-        <h5>et pour tout les prix !</h5>
-        <p>Some representative placeholder content for the third slide.</p>
+        <h4>Un séjour au bout du monde ?</h4>
+        <h5>dans tous les pays,</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="./images/ile-maurice.jpg" class="d-block w-100" alt="">
+      <div class="carousel-caption d-none d-md-block">
+        <h4>Ou simplement du repos et de la tranquilité ?</h4>
+        <h5>et pour tous les prix !</h5>
       </div>
     </div>
   </div>
@@ -50,21 +55,19 @@ include "header.php";
   </button>
 </div>
 </header>
+
 <body>
 
-<div class="wrapperIndex">
-  <h1>Nos offres du moment</h1>
-  <div class="container wrapperStays">
-    <div class="row">
-      <div class="col displayStays">
+  <div class="wrapperIndex">
+    <h1>Nos offres du moment</h1>
+    <div class="container wrapperStays">
+      <div class="row">
         <?php
-        include "functions.php";
         showSejours();
         ?>
       </div>
     </div>
   </div>
-</div>
 
 
 
@@ -89,6 +92,6 @@ include "header.php";
 
 
 
-<?php
-include "footer.php";
-?>
+  <?php
+  include "footer.php";
+  ?>

@@ -1,8 +1,8 @@
 <footer>
-    <div class="container-fluid">
+    <div class="container-fluid wrapperFooter">
         <div class="row">
             <div class="col-md-3 infos-top">
-                <p>Logo</p>
+                <img src="./images/Ô-tour-du-monde-logo.png">
             </div>
             <div class="col-md-3 infos-top">
                 <h6>Paiement Sécurisé</h6>
@@ -29,24 +29,23 @@
         </div>
         <div class="row">
             <div class="col-md-4 infos-bottom">
-                <h6>Réseaux sociaux</h6>
+                <h6>A propos</h6>
                 <div>
-                    <a href="">Qui sommes-nous?</a>
+                    <a href="who.php">Qui sommes-nous?</a>
                 </div>
             </div>
             <div class="col-md-4 infos-bottom">
                 <h6>Contact</h6>
                 <div>
-                    <a href="">Contactez-nous</a>
+                    <a href="contact.php">Contactez-nous</a>
                 </div>
             </div>
             <div class="col-md-4 infos-bottom">
             <h6>Informations légales</h6>
                 <div class=conditions>
                     <a href="mentions_legales.php">Mentions légales</a>
-                    <a href="">Conditions générales de vente</a>
-                    <a href="">Conseils aux voyageurs</a>
-                    <a href="">Liste noire des compagnies aériennes</a>
+                    <a href="CGV.php">Conditions générales de vente</a>
+                    <a href="liste-noire.php">Liste noire des compagnies aériennes</a>
                 </div>
             </div>
         </div>
