@@ -1,5 +1,10 @@
 <?php
-session_start();
+  require "db.php";
+  $sql = "SELECT * FROM boutique_en_ligne";
+  $statement = $connexion->prepare($sql);
+  $statement->execute();
+  $voyages = $statement-> fetchAll(PDO::FETCH_OBJ);
+  session_start();
 ?>
 
 <?php

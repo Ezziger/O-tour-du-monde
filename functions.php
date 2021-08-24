@@ -68,23 +68,29 @@ function getSejours() {
 /***********************************AFFICHAGE DES SEJOURS***********************************/
 
 function showSejours () {
-    foreach (getSejours() as $sejour) {
+    require "db.php";
+    $sql = "SELECT * FROM articles";
+    $statement = $connexion->prepare($sql);
+    $statement->execute();
+    $voyages = $statement-> fetchAll(PDO::FETCH_OBJ);
+
+    foreach ($voyages as $voyage) {
         echo '<div class="col-xl-3 col-lg-6 col-sm-12 justify-content-center mt-5 mb-5 displayStays">
         <div class="card" style="width: 18rem;">
-  <img src="'.$sejour["image"].'" class="card-img-top" alt="">
+  <img src="'.$voyage->image.'" class="card-img-top" alt="">
   <div class="card-body">
-    <h2 class="card-title">'.$sejour["nom_du_sejour"].'</h2>
-    <p class="card-text">'.$sejour["small_description"].'</p>
-    <p class="card-text">Durée : '.$sejour["durée"].'</p>
-    <p class="card-text">Formule : '.$sejour["formule"].'</p>
-    <p class="card-text">Prix : '.$sejour["prix"].' € /personne</p>
+    <h2 class="card-title">'.$voyage->nom.'</h2>
+    <p class="card-text">'.$voyage->description.'</p>
+    <p class="card-text">Durée : '.$voyage->duree.'</p>
+    <p class="card-text">Formule : '.$voyage->id_gamme.'</p>
+    <p class="card-text">Prix : '.$voyage->prix.' € /personne</p>
     <div class="btn-wrapper">
     <form method="post" action="sejour.php">
-    <input type="hidden" name="sejourId" value="' . $sejour["id"] . '">
+    <input type="hidden" name="sejourId" value="' . $voyage->id . '">
     <button type="submit" class="btn btn-primary" style="border-radius: 50px;">Details</button>
     </form>
     <form method="post" action="cart.php">
-    <input type="hidden" name="sejourId" value="' . $sejour["id"] . '">
+    <input type="hidden" name="sejourId" value="' . $voyage->id . '">
     <button type="submit" class="btn btn-primary" style="border-radius: 50px;">Ajouter au panier</button>
     </form>
     </div>
@@ -97,10 +103,18 @@ function showSejours () {
 /***********************************RECUPERATION DU SEJOUR CORRESPONDANT A L'ID***********************************/
 
 function getSejour ($id) {
-    $sejours = getSejours();
-    foreach($sejours as $sejour) {
-        if ($id == $sejour['id']) {
-            return $sejour;
+    require "db.php";
+    //$sql = "SELECT * FROM articles";
+    $sql = "SELECT articles.id, articles.nom, articles.description, articles.description_detaillee, articles.image, articles.prix, articles.background, articles.duree, gammes.nom AS formule FROM articles  
+    INNER JOIN gammes
+    ON articles.id_gamme = gammes.id;";
+    $statement = $connexion->prepare($sql);
+    $statement->execute();
+    $voyages = $statement-> fetchAll(PDO::FETCH_OBJ);
+
+    foreach($voyages as $voyage) {
+        if ($id == $voyage->id) {
+            return $voyage;
         }
     }
 }
@@ -114,14 +128,14 @@ function showSejour ($id) {
         <div class="row">
             <div class="card col" style="width: 18rem;padding: 0px;">
                 <img src="" class="card-img-top" alt="">
-                <div class="card-body details" style="background-image: url(' . $sejourDetails['background'] . ');">
-                    <h3 class="card-title">'.$sejourDetails["nom_du_sejour"].'</h3>
+                <div class="card-body details" style="background-image: url(' . $sejourDetails->background . ');">
+                    <h3 class="card-title">'.$sejourDetails->nom.'</h3>
                     <div class="row rowDetails">
                         <div class="col-md-2">
                             <p>Intitulé du séjour : </p>
                         </div>
                         <div class="col-md-10">
-                            <p class="card-text">'.$sejourDetails["small_description"].'</p>
+                            <p class="card-text">'.$sejourDetails->description.'</p>
                         </div>
                     </div>
                     <div class="row rowDetails">
@@ -129,7 +143,7 @@ function showSejour ($id) {
                             <p>Description : </p>
                         </div>
                         <div class="col-md-10">
-                            <p class="card-text">'.$sejourDetails["long_description"].'</p>
+                            <p class="card-text">'.$sejourDetails->description_detaillee.'</p>
                         </div>
                     </div>
                     <div class="row rowDetails">
@@ -137,7 +151,7 @@ function showSejour ($id) {
                             <p>Durée du séjour : </p>
                         </div>
                         <div class="col-md-10">
-                            <p class="card-text">'.$sejourDetails["durée"].'</p>
+                            <p class="card-text">'.$sejourDetails->duree.'</p>
                         </div>
                     </div>
                     <div class="row rowDetails">
@@ -145,7 +159,7 @@ function showSejour ($id) {
                             <p>Formule : </p>
                         </div>
                         <div class="col-md-10">
-                            <p class="card-text">'.$sejourDetails["formule"].'</p>
+                            <p class="card-text">'.$sejourDetails->formule.'</p>
                         </div>
                     </div>
                     <div class="row rowDetails">
@@ -153,11 +167,11 @@ function showSejour ($id) {
                             <p>Prix du séjour : </p>
                         </div>
                         <div class="col-md-10">
-                            <p class="card-text">'.$sejourDetails["prix"].' € / personne</p>
+                            <p class="card-text">'.$sejourDetails->prix.' € / personne</p>
                         </div>
                     </div>
                     <form class="btn-ajouter" method="post" action="cart.php">
-                    <input type="hidden" name="sejourId" value="' . $sejourDetails["id"] . '">
+                    <input type="hidden" name="sejourId" value="' . $sejourDetails->id . '">
                     <button type="submit" class="btn btn-primary">Ajouter au panier</button>
                     </form>
                 </div>
@@ -171,13 +185,13 @@ function addToCart ($id) {
     $isArticleAlreadyAdded = FALSE;
     $sejourChoisi = getSejour($id);
     for ($i = 0; $i < count($_SESSION['cart']); $i++) {
-        if($sejourChoisi['id'] === $_SESSION['cart'][$i]['id']) {
+        if($sejourChoisi->id === $_SESSION['cart'][$i]->id) {
             $isArticleAlreadyAdded = TRUE;
             echo "<script>alert(\"Ce séjour est déjà dans votre panier\")</script>";
         }
     }
     if ( !$isArticleAlreadyAdded) {
-        $sejourChoisi['quantity'] = 1;
+        $sejourChoisi->quantity = 1;
         array_push($_SESSION['cart'], $sejourChoisi);
     }
 }
@@ -190,20 +204,20 @@ function showCart($element) {
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3 centered">
-                            <p>' . $element['nom_du_sejour'] . '</p>
+                            <p>' . $element->nom . '</p>
                         </div>
                         <div class="col-md-5 centered">
                             <form method="post" action="cart.php">
-                                <input type="hidden" name="modificationSejourId" value="' . $element['id'] .'">
-                                <input type="text" name="nouvelleQuantité" value="' .$element['quantity'] . '" style="width: 30px">
+                                <input type="hidden" name="modificationSejourId" value="' . $element->id .'">
+                                <input type="text" name="nouvelleQuantité" value="' .$element->quantity . '" style="width: 30px">
                                 <button type="submit" class="btn btn-primary">Modifier la quantité</button>
                             </form>                        </div>
                         <div class="col-md-1 centered">
-                            <p>' . $element['prix'] * $element['quantity'] . ' €</p>
+                            <p>' . $element->prix * $element->quantity . ' €</p>
                         </div>
                         <div class="col-md-3 centered">
                             <form method="post" action="cart.php">
-                                <input type="hidden" name="idToDelete" value="' . $element['id'] . '">
+                                <input type="hidden" name="idToDelete" value="' . $element->id . '">
                                 <button type="submit" class="btn btn-primary">Supprimer du panier</button>
                             </form>
                         </div>
@@ -216,7 +230,7 @@ function showCart($element) {
 /***********************************SUPPRIMER DU PANIER***********************************/
 function deleteFromCart ($idTodelete) {
     for( $i = 0; $i < count($_SESSION['cart']); $i++) {
-        if ($idTodelete == $_SESSION['cart'][$i]['id']) {
+        if ($idTodelete == $_SESSION['cart'][$i]->id) {
             array_splice($_SESSION['cart'],$i, 1);
             if ($_SESSION['cart'] !== []) {
                 echo '<div class="alert alert-success" role="alert">
@@ -259,13 +273,13 @@ function AfficherLaValidationCommande () {
     foreach ($_SESSION['cart'] as $element) {
         echo '<li class="list-group-item d-flex justify-content-around">
         <div>
-            <p>' . $element['nom_du_sejour'] . '</p>
+            <p>' . $element->nom . '</p>
         </div>
         <div>
-            <p>' . $element['quantity'] . '</p>
+            <p>' . $element->quantity . '</p>
         </div>
         <div>
-            <p>' . $element['prix'] . ' €</p>
+            <p>' . $element->prix . ' €</p>
         </div>
         </li>';
     }
@@ -276,8 +290,8 @@ function AfficherLaValidationCommande () {
 
 function modificationQuantités () {
  for ($i = 0; $i < count($_SESSION['cart']); $i++) {
-     if ($_SESSION['cart'][$i]['id'] == $_POST['modificationSejourId']) {
-        $_SESSION['cart'][$i]['quantity'] = $_POST['nouvelleQuantité'];
+     if ($_SESSION['cart'][$i]->id == $_POST['modificationSejourId']) {
+        $_SESSION['cart'][$i]->quantity = $_POST['nouvelleQuantité'];
         echo '<div class="alert alert-success" role="alert">
         La quantité a bien été modifiée
             </div>';
@@ -290,7 +304,7 @@ $total = 0;
 function totalPanierHFP() {
     global $total;
     foreach ($_SESSION['cart'] as $element) {
-        $total += $element['prix'] * $element['quantity'];
+        $total += $element->prix * $element->quantity;
     }
     echo '<div class="list-group-item centered mt"><p>Total Hors Taxes : ' . $total . '€</p></div>';
     return $total;
@@ -303,7 +317,7 @@ function calculFraisDossier() {
     $totalNombreArticles = 0;
     $prixFraisDossier = 30;
     foreach ($_SESSION['cart'] as $element) {
-        $totalNombreArticles += $element['quantity'];
+        $totalNombreArticles += $element->quantity;
     }
     $totalFrais = ($totalNombreArticles * $prixFraisDossier) + intval($_POST['livraison']);
     echo '<div class="list-group-item centered"><p>Total des frais de ports : ' . $totalFrais . ' €</p></div>';

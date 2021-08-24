@@ -15,7 +15,7 @@ include "functions.php";
 <?php
 if (isset($_POST["sejourId"])) {
 ?>
-<img src="<?= getSejour($_POST["sejourId"])['image']?>" alt="">
+<img src="<?= getSejour($_POST["sejourId"])->image?>" alt="">
 <?php
 }
 ?>
