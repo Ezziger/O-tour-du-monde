@@ -1,10 +1,10 @@
 <?php
-  require "db.php";
-  $sql = "SELECT * FROM boutique_en_ligne";
-  $statement = $connexion->prepare($sql);
-  $statement->execute();
-  $voyages = $statement-> fetchAll(PDO::FETCH_OBJ);
-  session_start();
+session_start();
+require "db.php";
+$sql = "SELECT * FROM boutique_en_ligne";
+$statement = $connexion->prepare($sql);
+$statement->execute();
+$voyages = $statement->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 <?php
@@ -13,11 +13,11 @@ include "functions.php";
 ?>
 
 <span style="display: none;">
-<?php
-if (isset($_POST["validation"])) {
-  suppressionDuPanier();
-}
-?>
+  <?php
+  if (isset($_POST["validation"])) {
+    suppressionDuPanier();
+  }
+  ?>
 </span>
 
 

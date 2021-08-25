@@ -1,23 +1,29 @@
 <?php
+// ini_set('display_errors', 1);
 session_start();
 
 include "header.php";
 include "functions.php";
+include "db.php";
 
-if(isset($_POST["connexion"])) {
+if (isset($_POST["connexion"])) {
 
 	$email = $_POST["email"];
 	$password = $_POST["mdp"];
-
-	$sql = "SELECT * FROM clients WHERE email = $email";
+	$sql = "SELECT nom, prenom, email, mot_de_passe  FROM clients WHERE email = '$email'";
 	$statement = $connexion->prepare($sql);
-   $statement->execute();
+	$statement->execute();
 
-	if($statement->rowCount() > 0) {
+	if ($statement->rowCount() > 0) {
 		$data = $statement->fetchAll();
-		if (password_verify($password, $data[0]["mot_de_passe"])) {
-			$_SESSION['nom'] = $data[0]['nom'];
-			echo "Coucou";
+		if ($password === $data[0]["mot_de_passe"] && $email === $data[0]["email"]) {
+			$_SESSION["nom"] = $data[0]["nom"];
+			$_SESSION["prenom"] = $data[0]["prenom"];
+			header('Location: index.php');
+		} else {
+			echo '<div class="alert alert-warning" role="alert">
+			    E-mail ou mot de passe invalide !!!
+				   </div>';
 		}
 	} else {
 		echo '<div class="alert alert-warning" role="alert">

@@ -2,7 +2,8 @@
 
 <?php
 
-function getSejours() {
+function getSejours()
+{
     /***********************************SEJOUR EN GRECE***********************************/
     $grece = [
         "id" => 0,
@@ -14,9 +15,9 @@ function getSejours() {
         "durée" => "7 jours et 6 nuits",
         "formule" => "demi-pension",
         "prix" => "700"
-    ];  
-    
-    
+    ];
+
+
     /***********************************SEJOUR A L ILE MAURICE***********************************/
     $ile_maurice = [
         "id" => 1,
@@ -29,7 +30,7 @@ function getSejours() {
         "formule" => "all-inclusive",
         "prix" => "1250"
     ];
-    
+
     /***********************************SEJOUR AU BRESIL***********************************/
     $bresil = [
         "id" => 2,
@@ -41,7 +42,7 @@ function getSejours() {
         "durée" => "15 jours et 14 nuits",
         "formule" => "pension complète",
         "prix" => "1950"
-    ];  
+    ];
 
     /***********************************SEJOUR EN ISLANDE***********************************/
     $islande = [
@@ -54,12 +55,12 @@ function getSejours() {
         "durée" => "8 jours et 7 nuits",
         "formule" => "pension complète",
         "prix" => "850"
-    ];  
-    
-    
-    
+    ];
+
+
+
     /***********************************CREATION DE L'ARRAY SEJOUR***********************************/
-    
+
     $sejours = [];
     array_push($sejours, $grece, $ile_maurice, $bresil, $islande);
     return $sejours;
@@ -67,23 +68,24 @@ function getSejours() {
 
 /***********************************AFFICHAGE DES SEJOURS***********************************/
 
-function showSejours () {
+function showSejours()
+{
     require "db.php";
     $sql = "SELECT * FROM articles";
     $statement = $connexion->prepare($sql);
     $statement->execute();
-    $voyages = $statement-> fetchAll(PDO::FETCH_OBJ);
+    $voyages = $statement->fetchAll(PDO::FETCH_OBJ);
 
     foreach ($voyages as $voyage) {
         echo '<div class="col-xl-3 col-lg-6 col-sm-12 justify-content-center mt-5 mb-5 displayStays">
         <div class="card" style="width: 18rem;">
-  <img src="'.$voyage->image.'" class="card-img-top" alt="">
+  <img src="' . $voyage->image . '" class="card-img-top" alt="">
   <div class="card-body">
-    <h2 class="card-title">'.$voyage->nom.'</h2>
-    <p class="card-text">'.$voyage->description.'</p>
-    <p class="card-text">Durée : '.$voyage->duree.'</p>
-    <p class="card-text">Formule : '.$voyage->id_gamme.'</p>
-    <p class="card-text">Prix : '.$voyage->prix.' € /personne</p>
+    <h2 class="card-title">' . $voyage->nom . '</h2>
+    <p class="card-text">' . $voyage->description . '</p>
+    <p class="card-text">Durée : ' . $voyage->duree . '</p>
+    <p class="card-text">Formule : ' . $voyage->id_gamme . '</p>
+    <p class="card-text">Prix : ' . $voyage->prix . ' € /personne</p>
     <div class="btn-wrapper">
     <form method="post" action="sejour.php">
     <input type="hidden" name="sejourId" value="' . $voyage->id . '">
@@ -102,7 +104,8 @@ function showSejours () {
 
 /***********************************RECUPERATION DU SEJOUR CORRESPONDANT A L'ID***********************************/
 
-function getSejour ($id) {
+function getSejour($id)
+{
     require "db.php";
     //$sql = "SELECT * FROM articles";
     $sql = "SELECT articles.id, articles.nom, articles.description, articles.description_detaillee, articles.image, articles.prix, articles.background, articles.duree, gammes.nom AS formule FROM articles  
@@ -110,9 +113,9 @@ function getSejour ($id) {
     ON articles.id_gamme = gammes.id;";
     $statement = $connexion->prepare($sql);
     $statement->execute();
-    $voyages = $statement-> fetchAll(PDO::FETCH_OBJ);
+    $voyages = $statement->fetchAll(PDO::FETCH_OBJ);
 
-    foreach($voyages as $voyage) {
+    foreach ($voyages as $voyage) {
         if ($id == $voyage->id) {
             return $voyage;
         }
@@ -121,21 +124,25 @@ function getSejour ($id) {
 
 /***********************************AFFICHAGE DU SEJOUR CORRESPONDANT A L'ID***********************************/
 
-function showSejour ($id) {
+function showSejour($id)
+{
     $sejourDetails = getSejour($id);
-    echo '
+    if (!isset($_SESSION["nom"])) {
+        header('Location: connexion.php');
+    } else {
+        echo '
     <div class="container" style="padding: 0px;">
         <div class="row">
             <div class="card col" style="width: 18rem;padding: 0px;">
                 <img src="" class="card-img-top" alt="">
                 <div class="card-body details" style="background-image: url(' . $sejourDetails->background . ');">
-                    <h3 class="card-title">'.$sejourDetails->nom.'</h3>
+                    <h3 class="card-title">' . $sejourDetails->nom . '</h3>
                     <div class="row rowDetails">
                         <div class="col-md-2">
                             <p>Intitulé du séjour : </p>
                         </div>
                         <div class="col-md-10">
-                            <p class="card-text">'.$sejourDetails->description.'</p>
+                            <p class="card-text">' . $sejourDetails->description . '</p>
                         </div>
                     </div>
                     <div class="row rowDetails">
@@ -143,7 +150,7 @@ function showSejour ($id) {
                             <p>Description : </p>
                         </div>
                         <div class="col-md-10">
-                            <p class="card-text">'.$sejourDetails->description_detaillee.'</p>
+                            <p class="card-text">' . $sejourDetails->description_detaillee . '</p>
                         </div>
                     </div>
                     <div class="row rowDetails">
@@ -151,7 +158,7 @@ function showSejour ($id) {
                             <p>Durée du séjour : </p>
                         </div>
                         <div class="col-md-10">
-                            <p class="card-text">'.$sejourDetails->duree.'</p>
+                            <p class="card-text">' . $sejourDetails->duree . '</p>
                         </div>
                     </div>
                     <div class="row rowDetails">
@@ -159,7 +166,7 @@ function showSejour ($id) {
                             <p>Formule : </p>
                         </div>
                         <div class="col-md-10">
-                            <p class="card-text">'.$sejourDetails->formule.'</p>
+                            <p class="card-text">' . $sejourDetails->formule . '</p>
                         </div>
                     </div>
                     <div class="row rowDetails">
@@ -167,7 +174,7 @@ function showSejour ($id) {
                             <p>Prix du séjour : </p>
                         </div>
                         <div class="col-md-10">
-                            <p class="card-text">'.$sejourDetails->prix.' € / personne</p>
+                            <p class="card-text">' . $sejourDetails->prix . ' € / personne</p>
                         </div>
                     </div>
                     <form class="btn-ajouter" method="post" action="cart.php">
@@ -179,26 +186,33 @@ function showSejour ($id) {
         </div>
     </div>';
     }
+}
 /***********************************AJOUTER LE SEJOUR AU PANIER***********************************/
 
-function addToCart ($id) {
+function addToCart($id)
+{
     $isArticleAlreadyAdded = FALSE;
     $sejourChoisi = getSejour($id);
-    for ($i = 0; $i < count($_SESSION['cart']); $i++) {
-        if($sejourChoisi->id === $_SESSION['cart'][$i]->id) {
-            $isArticleAlreadyAdded = TRUE;
-            echo "<script>alert(\"Ce séjour est déjà dans votre panier\")</script>";
+    if (!isset($_SESSION["nom"])) {
+        header('Location: connexion.php');
+    } else {
+        for ($i = 0; $i < count($_SESSION['cart']); $i++) {
+            if ($sejourChoisi->id === $_SESSION['cart'][$i]->id) {
+                $isArticleAlreadyAdded = TRUE;
+                echo "<script>alert(\"Ce séjour est déjà dans votre panier\")</script>";
+            }
         }
-    }
-    if ( !$isArticleAlreadyAdded) {
-        $sejourChoisi->quantity = 1;
-        array_push($_SESSION['cart'], $sejourChoisi);
+        if (!$isArticleAlreadyAdded) {
+            $sejourChoisi->quantity = 1;
+            array_push($_SESSION['cart'], $sejourChoisi);
+        }
     }
 }
 
 /***********************************AFFICHER LE PANIER***********************************/
 
-function showCart($element) {
+function showCart($element)
+{
     foreach ($_SESSION['cart'] as $element) {
         echo '<li class="list-group-item d-flex justify-content-between">
                 <div class="container">
@@ -208,8 +222,8 @@ function showCart($element) {
                         </div>
                         <div class="col-md-5 centered">
                             <form method="post" action="cart.php">
-                                <input type="hidden" name="modificationSejourId" value="' . $element->id .'">
-                                <input type="text" name="nouvelleQuantité" value="' .$element->quantity . '" style="width: 30px">
+                                <input type="hidden" name="modificationSejourId" value="' . $element->id . '">
+                                <input type="text" name="nouvelleQuantité" value="' . $element->quantity . '" style="width: 30px">
                                 <button type="submit" class="btn btn-primary">Modifier la quantité</button>
                             </form>                        </div>
                         <div class="col-md-1 centered">
@@ -228,10 +242,11 @@ function showCart($element) {
 }
 
 /***********************************SUPPRIMER DU PANIER***********************************/
-function deleteFromCart ($idTodelete) {
-    for( $i = 0; $i < count($_SESSION['cart']); $i++) {
+function deleteFromCart($idTodelete)
+{
+    for ($i = 0; $i < count($_SESSION['cart']); $i++) {
         if ($idTodelete == $_SESSION['cart'][$i]->id) {
-            array_splice($_SESSION['cart'],$i, 1);
+            array_splice($_SESSION['cart'], $i, 1);
             if ($_SESSION['cart'] !== []) {
                 echo '<div class="alert alert-success" role="alert">
                 Le séjour a été retiré du panier
@@ -246,14 +261,16 @@ function deleteFromCart ($idTodelete) {
 }
 
 /***********************************AFFICHER LE BOUTON POUR SUPPRIMER LA TOTALITE DU PANIER***********************************/
-function boutonToutSupprimer () {
-echo '<form method="post" action="cart.php">
+function boutonToutSupprimer()
+{
+    echo '<form method="post" action="cart.php">
  <input type="hidden" name="supprimerPanier" value="">
  <button type="submit" class="btn btn-primary" style="margin-top: 25px;">Supprimer le panier</button>';
 }
 
 /***********************************SUPPRIMER LA TOTALITE DU PANIER***********************************/
-function suppressionDuPanier () {
+function suppressionDuPanier()
+{
     $_SESSION['cart'] = [];
     echo '<div class="alert alert-warning" role="alert">
     Votre panier est vide
@@ -269,7 +286,8 @@ function suppressionDuPanier () {
 } */
 
 /***********************************VALIDER LE PANIER***********************************/
-function AfficherLaValidationCommande () {
+function AfficherLaValidationCommande()
+{
     foreach ($_SESSION['cart'] as $element) {
         echo '<li class="list-group-item d-flex justify-content-around">
         <div>
@@ -288,20 +306,22 @@ function AfficherLaValidationCommande () {
 
 /***********************************MODIFICATIONS DES QUANTITES***********************************/
 
-function modificationQuantités () {
- for ($i = 0; $i < count($_SESSION['cart']); $i++) {
-     if ($_SESSION['cart'][$i]->id == $_POST['modificationSejourId']) {
-        $_SESSION['cart'][$i]->quantity = $_POST['nouvelleQuantité'];
-        echo '<div class="alert alert-success" role="alert">
+function modificationQuantités()
+{
+    for ($i = 0; $i < count($_SESSION['cart']); $i++) {
+        if ($_SESSION['cart'][$i]->id == $_POST['modificationSejourId']) {
+            $_SESSION['cart'][$i]->quantity = $_POST['nouvelleQuantité'];
+            echo '<div class="alert alert-success" role="alert">
         La quantité a bien été modifiée
             </div>';
-     }
- }
+        }
+    }
 }
 
 /***********************************TOTAL DU PANIER***********************************/
 $total = 0;
-function totalPanierHFP() {
+function totalPanierHFP()
+{
     global $total;
     foreach ($_SESSION['cart'] as $element) {
         $total += $element->prix * $element->quantity;
@@ -312,7 +332,8 @@ function totalPanierHFP() {
 
 /***********************************FRAIS DE DOSSIER***********************************/
 $totalFrais = 0;
-function calculFraisDossier() {
+function calculFraisDossier()
+{
     global $totalFrais;
     $totalNombreArticles = 0;
     $prixFraisDossier = 30;
@@ -325,13 +346,13 @@ function calculFraisDossier() {
 }
 
 /***********************************TOTAL DU PANIER TTC***********************************/
-function TotalTTC () {
+function TotalTTC()
+{
     global $total, $totalFrais;
     $totalTTC = $total + $totalFrais;
     echo '<div class="list-group-item centered">
             <p>Total TTC de la commande : ' . $totalTTC . ' €
           </div>';
-
 }
 
 

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "header.php";
 include "functions.php";
 include "db.php";
@@ -40,11 +41,11 @@ include "db.php";
       </div>
       <div class="mb-3">
             <label for="Email" class="form-label">Email address</label>
-            <input type="email" class="form-control" name="email" id="Email">
+            <input type="email" class="form-control" name="email" id="Email" required>
             <div class="form-text">Votre adresse e-mail ne sera pas utilisée à des fins commerciaux.</div>
       </div>
       <div class="mb-3">
-            <label for="Password" class="form-label">Password</label>
+            <label for="Password" class="form-label">Password</label required>
             <input type="password" class="form-control" name="mdp" id="Password">
             <div class="form-text">Veuillez mettre un mot de passe avec 8 caractères minimun, un chiffre et un caractère spécial.</div>
       </div>

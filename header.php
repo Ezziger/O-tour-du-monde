@@ -30,6 +30,11 @@
       <li class="nav-item">
         <a class="nav-link" href="./index.php">Accueil</a>
       </li>
+      <?php
+      if(isset($_SESSION["nom"])) {
+          echo '<a class="nav-link" href="./profil.php">Profil</a>';
+        }
+      ?>
       <li class="nav-item">
         <a class="nav-link" href="./cart.php">Panier</a>
       </li>
@@ -40,7 +45,13 @@
         <a class="nav-link" href="./contact.php">Contact</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="./connexion.php">Connexion</a>
+      <?php
+        if(!isset($_SESSION["nom"])) {
+          echo '<a class="nav-link" href="./connexion.php">Connexion</a>';
+        } else {
+          echo '<a class="nav-link" href="./deconnexion.php">Déconnexion</a>';         
+        }
+      ?>
       </li>
     </ul>
   </div>
